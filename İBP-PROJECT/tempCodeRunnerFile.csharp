@@ -1,0 +1,41 @@
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+class Program
+{
+    static Random random = new Random();
+
+    static void Main(string[] args)
+    {
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+
+        Form form = new Form();
+        form.Size = new Size(400, 400);
+
+        PictureBox pictureBox = new PictureBox();
+        pictureBox.Size = new Size(300, 300);
+        pictureBox.Location = new Point((form.ClientSize.Width - pictureBox.Width) / 2, (form.ClientSize.Height - pictureBox.Height) / 2);
+        pictureBox.BackColor = Color.White;
+
+        form.Controls.Add(pictureBox);
+
+        Timer timer = new Timer();
+        timer.Interval = 500; // Timer aralığı (milisaniye cinsinden)
+        timer.Tick += (sender, e) =>
+        {
+            // PictureBox üzerine mavi daire çiz
+            using (Graphics g = pictureBox.CreateGraphics())
+            {
+                int x = random.Next(pictureBox.Width - 50); // X konumu
+                int y = random.Next(pictureBox.Height - 50); // Y konumu
+
+                g.FillEllipse(Brushes.Blue, x, y, 50, 50); // Mavi daireyi çiz
+            }
+        };
+        timer.Start();
+
+        form.ShowDialog();
+    }
+}
